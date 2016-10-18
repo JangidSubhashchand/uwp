@@ -13,21 +13,8 @@ namespace App1
 
         private async void SendEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            EmailMessage emailMessage = new EmailMessage();
-            emailMessage.To.Add(new EmailRecipient("m.mskaira@gmail.com"));
-            string messageBody = "Hello World";
-            emailMessage.Body = messageBody;
-            StorageFolder MyFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            StorageFile attachmentFile = await MyFolder.GetFoldersAsync("File");
-            if (attachmentFile != null)
-            {
-                var stream = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(attachmentFile);
-                var attachment = new Windows.ApplicationModel.Email.EmailAttachment(
-                         attachmentFile.Name,
-                         stream);
-                emailMessage.Attachments.Add(attachment);
-            }
-            await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+            ZipFile.CreateFromDirectory(folder.Path, $"{folder.Path}\\{Guid.NewGuid()}.zip",
+                    CompressionLevel.NoCompression, true);
         }
     }
 }
